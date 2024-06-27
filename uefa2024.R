@@ -7,7 +7,7 @@ library(jsonlite)
 library(rvest)
 library(tidyverse)
 
-💾 #cargar y extraer los datos 💀
+# 💾 cargar y extraer los datos 💀
 
 matches <- "https://match.uefa.com/v5/matches?competitionId=3&limit=55&offset=0&order=ASC&phase=ALL&roundId=2001084&seasonYear=2024"
 
@@ -24,7 +24,7 @@ uefa_matches <- httr::GET(matches, query= list()) %>%
 
 #podría estar haciendo unnest hasta el infinito pero me harté
 
-💿 #data frame para juntar con los datos extraidos
+#  💿 data frame para juntar con los datos extraidos
 
 teams_away <- uefa_matches %>% select(team_id = awayTeam_id, countryCode = awayTeam_countryCode, internationalName = awayTeam_internationalName)
 teams <- uefa_matches %>% select(team_id = homeTeam_id, countryCode = homeTeam_countryCode, internationalName =  homeTeam_internationalName ) %>% 
@@ -32,7 +32,7 @@ teams <- uefa_matches %>% select(team_id = homeTeam_id, countryCode = homeTeam_c
   unique() %>% 
   mutate(team_id = as.numeric(team_id))
 
-🏟️ #Función para extrer los datos
+# 🏟️ para extrer los datos
 
 id_number <- uefa_matches$id
 
@@ -65,6 +65,6 @@ left_join(teams, join_by(team_id))
 
 uefa_statsDf <- map_df(id_number, uefa_stats)
 
-📝 #escribir csv
+# 📝 escribir csv
 
 write_csv(uefa_statsDf,  "uefa2024.csv")
